@@ -17,8 +17,14 @@ body.ydl-watch #primary {
   max-width: 100% !important;
 }
 
-/* ─── Homepage: hide algorithmic feed ────────────────────────────────────── */
+/* ─── Homepage basic mode: hide algorithmic feed ─────────────────────────── */
 body.ydl-home ytd-rich-grid-renderer,
 body.ydl-home ytd-browse[page-subtype="home"] #contents {
   display: none !important;
+}
+
+/* ─── Homepage advanced mode: keep feed visible, JS filters individual cards  */
+body.ydl-home-advanced ytd-rich-grid-renderer,
+body.ydl-home-advanced ytd-browse[page-subtype="home"] #contents {
+  display: block !important;
 }
