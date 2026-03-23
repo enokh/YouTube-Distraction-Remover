@@ -82,13 +82,15 @@ is required to re-apply rules as the DOM changes).
 
 **What appears on the homepage (`youtube.com/`):**
 - Algorithmically recommended videos (the default feed)
-- A "Subscriptions" tab in the top chip bar
+- A "Subscriptions" chip in the top filter bar
 
 **Approach:**
 - CSS: hide the main homepage feed container on `youtube.com/`
-- JS: after page load, programmatically click the "Subscriptions" chip/tab so the user
-  lands directly on their subscriptions feed instead of the algorithmic feed
-- If the Subscriptions chip is not present (e.g. logged-out), show a plain message
+- JS: a `MutationObserver` watches for the Subscriptions chip and clicks it the
+  instant it appears in the DOM — no fixed delay
+- JS: if the chip has not been found within 2 seconds (e.g. slow load or logged-out),
+  the observer is cancelled and the user is redirected to
+  `youtube.com/feed/subscriptions` as a fallback
 
 ---
 
@@ -133,7 +135,7 @@ No user data is collected. No network requests are made by the extension.
 |---|---|
 | YouTube changes DOM selectors | Use stable IDs; maintain a selector update list |
 | SPA navigation not detected | Dual detection: `yt-navigate-finish` + title MutationObserver |
-| Subscriptions chip not found | Graceful fallback — hide feed but don't crash |
+| Subscriptions chip not found within 2 s | Redirect to `youtube.com/feed/subscriptions` |
 | Flash of hidden content | CSS injected via `styles.css` loads before JS |
 
 ---
