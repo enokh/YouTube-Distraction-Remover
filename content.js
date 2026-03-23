@@ -24,28 +24,33 @@ function applyPageClass() {
 // After landing on the homepage we try to activate the Subscriptions feed chip
 // so the user sees channels they follow instead of the algorithm feed.
 
+function findAndClickSubscriptionsChip() {
+  const chips = document.querySelectorAll(
+    'yt-chip-cloud-chip-renderer, iron-selector yt-formatted-string'
+  );
+  for (const chip of chips) {
+    if (chip.textContent.trim().toLowerCase() === 'subscriptions') {
+      chip.click();
+      return true;
+    }
+  }
+  return false;
+}
+
 function activateSubscriptionsChip() {
   if (!document.body.classList.contains('ydl-home')) return;
 
-  // Chips take a moment to render — poll briefly then give up
-  let attempts = 0;
-  const interval = setInterval(() => {
-    attempts++;
+  // Try immediately in case chips are already in the DOM
+  if (findAndClickSubscriptionsChip()) return;
 
-    const chips = document.querySelectorAll(
-      'yt-chip-cloud-chip-renderer, iron-selector yt-formatted-string'
-    );
+  // Otherwise watch for chips to be injected and click as soon as they appear
+  const obs = new MutationObserver(() => {
+    if (findAndClickSubscriptionsChip()) obs.disconnect();
+  });
+  obs.observe(document.body, { childList: true, subtree: true });
 
-    for (const chip of chips) {
-      if (chip.textContent.trim().toLowerCase() === 'subscriptions') {
-        chip.click();
-        clearInterval(interval);
-        return;
-      }
-    }
-
-    if (attempts >= 20) clearInterval(interval); // give up after ~2 s
-  }, 100);
+  // Safety disconnect after 5 s to avoid a dangling observer
+  setTimeout(() => obs.disconnect(), 3000);
 }
 
 // ─── Shorts shelf pruning (dynamic / injected shelves) ───────────────────────
