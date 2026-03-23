@@ -49,8 +49,13 @@ function activateSubscriptionsChip() {
   });
   obs.observe(document.body, { childList: true, subtree: true });
 
-  // Safety disconnect after 5 s to avoid a dangling observer
-  setTimeout(() => obs.disconnect(), 3000);
+  // If chip not found after 3 s, redirect to the full subscriptions page
+  setTimeout(() => {
+    obs.disconnect();
+    if (document.body.classList.contains('ydl-home')) {
+      window.location.replace('https://www.youtube.com/feed/subscriptions');
+    }
+  }, 2000);
 }
 
 // ─── Shorts shelf pruning (dynamic / injected shelves) ───────────────────────
