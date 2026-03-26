@@ -10,7 +10,7 @@ helping the user focus on content from channels they have chosen to follow.
 ## Goals
 
 1. Remove all YouTube Shorts from every surface (shelves, sidebar, dedicated page)
-2. On the watch page, hide the recommendations sidebar — show only the video and comments
+2. On the watch page, hide the recommendations sidebar — show only the video and comments (live chat is preserved on livestreams)
 3. On the homepage, offer two modes for controlling what the user sees:
    - **Basic**: hide all recommended videos and redirect to the Subscriptions feed
    - **Advanced**: keep the homepage feed but filter it to only show videos from subscribed channels
@@ -109,7 +109,9 @@ are included.
 - The comments section (`#comments`)
 
 **Approach:**
-- CSS: `#secondary { display: none !important; }` when on a `/watch` URL (both modes)
+- CSS: `#secondary { display: none !important; }` when on a `/watch` URL, but only when
+  no `ytd-live-chat-frame` is present (detected via `:has()`) — this preserves live chat
+  on livestreams while still hiding recommendations on regular videos
 - JS: MutationObserver detects SPA navigation to `/watch` pages and toggles the rule
 
 ---

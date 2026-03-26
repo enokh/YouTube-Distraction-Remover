@@ -3,7 +3,7 @@
 A browser extension that removes distracting content from YouTube:
 
 - Removes all YouTube Shorts (shelves, nav link, and redirects `/shorts/` URLs)
-- On the watch page, hides the recommendations sidebar — only the video and comments remain
+- On the watch page, hides the recommendations sidebar — only the video and comments remain (live chat is preserved on livestreams)
 - On the homepage, offers two modes for controlling what you see (see below)
 
 ---
