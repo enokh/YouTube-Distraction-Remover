@@ -7,13 +7,17 @@ ytd-mini-guide-entry-renderer a[href="/shorts"],
   display: none !important;
 }
 
-/* ─── Watch page: hide recommendations sidebar (not on livestreams) ─────────── */
-/* :has() lets us skip this when live chat is present in the secondary panel. */
+/* ─── Watch page: hide recommendations on all watch pages ───────────────────── */
+body.ydl-watch ytd-watch-next-secondary-results-renderer {
+  display: none !important;
+}
+
+/* On regular videos (no live chat) collapse the now-empty sidebar column */
 body.ydl-watch:not(:has(ytd-live-chat-frame)) #secondary {
   display: none !important;
 }
 
-/* Expand the player column only when the sidebar is actually hidden */
+/* Expand the player column only when the sidebar is fully hidden */
 body.ydl-watch:not(:has(ytd-live-chat-frame)) #primary {
   max-width: 100% !important;
 }
