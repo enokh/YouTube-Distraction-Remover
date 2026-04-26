@@ -12,13 +12,24 @@ body.ydl-watch ytd-watch-next-secondary-results-renderer {
   display: none !important;
 }
 
-/* On regular videos (no live chat) collapse the now-empty sidebar column */
-body.ydl-watch:not(:has(ytd-live-chat-frame)) #secondary {
+/* When the video has chapters, show the sidebar to reveal the chapters panel */
+body.ydl-watch:has(ytd-macro-markers-list-renderer) ytd-watch-next-secondary-results-renderer {
+  display: block !important;
+}
+/* But still hide all recommendation items within it */
+body.ydl-watch:has(ytd-macro-markers-list-renderer) ytd-watch-next-secondary-results-renderer ytd-compact-video-renderer,
+body.ydl-watch:has(ytd-macro-markers-list-renderer) ytd-watch-next-secondary-results-renderer ytd-item-section-renderer,
+body.ydl-watch:has(ytd-macro-markers-list-renderer) ytd-watch-next-secondary-results-renderer ytd-continuation-item-renderer {
+  display: none !important;
+}
+
+/* On regular videos (no live chat, no chapters) collapse the now-empty sidebar column */
+body.ydl-watch:not(:has(ytd-live-chat-frame)):not(:has(ytd-macro-markers-list-renderer)) #secondary {
   display: none !important;
 }
 
 /* Expand the player column only when the sidebar is fully hidden */
-body.ydl-watch:not(:has(ytd-live-chat-frame)) #primary {
+body.ydl-watch:not(:has(ytd-live-chat-frame)):not(:has(ytd-macro-markers-list-renderer)) #primary {
   max-width: 100% !important;
 }
 
